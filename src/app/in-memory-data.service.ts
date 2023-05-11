@@ -21,7 +21,7 @@ export class InMemoryDataService implements InMemoryDbService {
       {
         id: 13,
         parentId: 12,
-        userId: 3,
+        userId: 2,
         author: 'Peter',
         content: 'lorem',
         date: '03.05.2023',

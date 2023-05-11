@@ -1,4 +1,5 @@
 import { Component, Output, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 
 import { CommentInterface } from '../comment-interface';
 import { CommentService } from '../comment.service';
@@ -14,7 +15,19 @@ export class ListComponent implements OnInit {
   hasOpenNew: boolean = false;
   comments: CommentInterface[] = [];
 
-  constructor(private commentService: CommentService) {}
+  sortOptions = [
+    { value: 0, name: 'Most recent' },
+    { value: 1, name: 'Most comments' },
+  ];
+
+  formSort = this.formBuilder.group({
+    sortBy: [this.sortOptions[0].value],
+  });
+
+  constructor(
+    private commentService: CommentService,
+    private formBuilder: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.getComments();
@@ -27,8 +40,17 @@ export class ListComponent implements OnInit {
       .subscribe((comments) => (this.comments = comments));
   }
 
-  // Update when comments are changed
+  // Update when comments are changed and filter according to selected filter
   updateComments() {
+    console.log(this.formSort.value.sortBy);
+
+    // Sort by most comments
+    if (this.formSort.value.sortBy == 1) {
+      return this.comments.sort(
+        (a, b) => b.repliesIds.length - a.repliesIds.length
+      );
+    }
+    // Sort by most recent (default)
     return this.comments.sort(
       (b, a) => new Date(a.date).getTime() - new Date(b.date).getTime()
     );

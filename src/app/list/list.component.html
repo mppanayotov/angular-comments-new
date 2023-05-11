@@ -2,12 +2,17 @@
   <div class="shell">
     <!-- Comment sorting options -->
     <div class="list__head">
-      Sort by:
-
-      <ul>
-        <li>Most replies</li>
-        <li>Most recent</li>
-      </ul>
+      <form [formGroup]="formSort">
+        <label for="sortOptions">Sort by:</label>
+        <select formControlName="sortBy">
+          <option
+            *ngFor="let sortOption of sortOptions"
+            [value]="sortOption.value"
+          >
+            {{ sortOption.name }}
+          </option>
+        </select>
+      </form>
     </div>
 
     <!-- Actions for adding root comment -->

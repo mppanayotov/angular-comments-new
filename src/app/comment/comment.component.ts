@@ -9,6 +9,7 @@ import { CommentInterface } from '../comment-interface';
 export class CommentComponent implements OnInit, CommentInterface {
   @Input() comment!: CommentInterface;
   @Input() repliesInput: CommentInterface[] = [];
+  @Input() isOriginalPoster: boolean = false;
 
   @Output() deleteComment = new EventEmitter();
   @Output() replyComment = new EventEmitter();

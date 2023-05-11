@@ -2,6 +2,8 @@
   <div class="comment__head">
     <!-- Default avatar -->
     <img src="assets/img/avatar.png" alt="Avatar" />
+    <!-- Mark if current user is author of thread (determined by userId; author name is not matched) -->
+    <span *ngIf="isOriginalPoster">&#10052;</span>
     <!-- Display user name -->
     <h3>{{ author }}</h3>
     &bull;
@@ -47,6 +49,7 @@
         (deleteComment)="deleteComment.emit(reply)"
         (replyComment)="replyComment.emit($event); hasOpenReply = false"
         (editComment)="editComment.emit($event); hasOpenReply = false"
+        [isOriginalPoster]="this.comment.userId == this.reply.userId"
       ></app-comment>
     </li>
   </ul>
