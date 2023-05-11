@@ -1,0 +1,116 @@
+.comment {
+  h3 {
+    display: inline-block;
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  h4 {
+    display: inline-block;
+  }
+
+  p {
+    display: block;
+    margin-bottom: 10px;
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid rgba(#000, 0.2);
+    padding: 16px 22px;
+    font: inherit;
+    color: inherit;
+    box-shadow: 1px 1px 2px 0px transparent, 1px 1px 2px 0px transparent inset;
+    overflow-wrap: break-word;
+  }
+
+  ul {
+    list-style-type: none;
+  }
+
+  li:first-child {
+    padding-top: 20px;
+  }
+
+  li {
+    padding-left: 40px;
+    padding-bottom: 20px;
+  }
+
+  li:last-child {
+    padding-bottom: 0;
+  }
+
+  small {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 10px;
+    line-height: 1;
+  }
+
+  img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    border: 1px solid #000;
+  }
+
+  button {
+    position: relative;
+    padding: 6px 20px;
+    border: 1px solid rgba(#000, 0.2);
+    border-radius: 10px;
+    background-color: transparent;
+    min-width: 0;
+    min-height: 0;
+    box-shadow: none;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    text-transform: none;
+    color: inherit;
+    font-weight: 700;
+    line-height: 1.6;
+    font-size: inherit;
+    letter-spacing: 0em;
+    cursor: pointer;
+    text-decoration: none;
+    outline: none;
+    appearance: none;
+    transition: transform 0.3s ease-out, border-color 0.3s ease-out,
+      border-radius 0.3s ease-out, max-width 0.3s ease-out,
+      max-height 0.3s ease-out, background-color 0.3s ease-out,
+      box-shadow 0.3s ease-out, color 0.3s ease-out, opacity 0.3s ease-out,
+      visibility 0.3s ease-out;
+    z-index: 1;
+    transform-style: preserve-3d;
+
+    &:hover,
+    &:focus {
+      border-color: rgba(#000, 0.4);
+      box-shadow: 1px 1px 2px 0px rgba(#000, 0.05),
+        1px 1px 2px 0px rgba(#000, 0.05) inset;
+    }
+  }
+
+  button:first-child {
+    margin-right: auto;
+  }
+
+  button + button {
+    margin-left: 10px;
+  }
+
+  .comment__head {
+    position: relative;
+    min-height: 30px;
+    margin-bottom: 8px;
+    padding: 2px 100px 0 40px;
+  }
+
+  .comment__foot {
+    display: flex;
+  }
+}

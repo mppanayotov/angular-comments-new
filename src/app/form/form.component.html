@@ -1,0 +1,27 @@
+<div class="form">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <!-- User details -->
+    <div class="form__head" formGroupName="authorDetails" *ngIf="!isEdit">
+      <img src="assets/img/avatar.png" alt="Avatar" />
+
+      <input type="text" formControlName="author" placeholder="Author" />
+
+      <input type="number" formControlName="userId" placeholder="User ID" />
+    </div>
+
+    <!-- Text content for comment -->
+    <textarea
+      formControlName="content"
+      placeholder="Content"
+      rows="1"
+    ></textarea>
+
+    <!-- Form actions -->
+    <div class="form__foot">
+      <button type="submit" [disabled]="form.invalid">
+        {{ submitLabel }}
+      </button>
+      <button type="button" (click)="cancel.emit()">Cancel</button>
+    </div>
+  </form>
+</div>

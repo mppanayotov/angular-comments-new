@@ -1,0 +1,98 @@
+// Base
+body {
+	min-width: 320px;
+	background: #f7f7f7;
+	font-family: $ff-sans-serif;
+	font-weight: $font-weight-base;
+	font-size: $font-size-base;
+	line-height: $line-height-base;
+	color: #212325;
+
+	@include breakpoint-down(small-desktop) {
+		font-size: 13px;
+	}
+
+	@include breakpoint-down(mobile) {
+		font-size: 15px;
+	}
+}
+
+a,
+button {
+	color: inherit;
+	text-decoration: underline;
+	box-shadow: none;
+	border: none;
+	appearance: none;
+	outline: none;
+	background: none;
+	transition: transform .3s ease-out, border-color .3s ease-out, border-radius .3s ease-out, max-width .3s ease-out, max-height .3s ease-out, background-color .3s ease-out, box-shadow .3s ease-out, color .3s ease-out, opacity .3s ease-out, visibility .3s ease-out;
+	text-decoration: none;
+	cursor: pointer;
+
+	&:hover,
+	&:focus,
+	&:active {
+		text-decoration: none;
+		color: inherit;
+	}
+
+	&[href^="tel"] {
+		text-decoration: none;
+		cursor: pointer;
+	}
+}
+
+img,
+svg {
+	max-width: 100%;
+	max-height: 100%;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+.h1,
+h1,
+.h2,
+h2,
+.h3,
+h3,
+.h4,
+h4,
+.h5,
+h5,
+.h6,
+h6 {
+	margin-bottom: calc(#{$line-height-base}em / 2.1);
+}
+
+p,
+ul,
+ol,
+dl,
+hr,
+table,
+blockquote {
+	margin-bottom: #{$line-height-base}em;
+}
+
+h1[class],
+h2[class],
+h3[class],
+h4[class],
+h5[class],
+h6[class],
+h1:last-child,
+h2:last-child,
+h3:last-child,
+h4:last-child,
+h5:last-child,
+h6:last-child,
+p:last-child,
+ul:last-child,
+ol:last-child,
+dl:last-child,
+table:last-child,
+blockquote:last-child {
+	margin-bottom: 0;
+}

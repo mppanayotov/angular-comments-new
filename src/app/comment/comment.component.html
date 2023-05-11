@@ -1,0 +1,53 @@
+<div class="comment">
+  <div class="comment__head">
+    <!-- Default avatar -->
+    <img src="assets/img/avatar.png" alt="Avatar" />
+    <!-- Display user name -->
+    <h3>{{ author }}</h3>
+    &bull;
+    <!-- Display comment date and format it using pipe -->
+    <h4>{{ date | date : "d. MMMM yyyy" }}</h4>
+    <!-- Comment ID and User ID for debugging purposes -->
+    <small
+      >Comment ID: {{ id }} <br />
+      Parent ID: {{ parentId || "root" }} <br />
+      User ID: {{ userId }}
+    </small>
+  </div>
+
+  <!-- Comment text content -->
+  <p>{{ content }}</p>
+
+  <!-- Comment actions -->
+  <div class="comment__foot" *ngIf="!hasOpenEdit && !hasOpenReply">
+    <!-- Reply button always available / Support guest comments -->
+    <button type="button" (click)="hasOpenReply = true">Reply</button>
+
+    <!-- Edit button always available / Should be enabled only if user is the author of comment -->
+    <button type="button" (click)="hasOpenEdit = true">Edit</button>
+
+    <!-- Delete button if available -->
+    <button type="button" (click)="deleteComment.emit(comment)">Delete</button>
+  </div>
+
+  <app-form
+    *ngIf="hasOpenEdit || hasOpenReply"
+    [comment]="comment"
+    [isEdit]="hasOpenEdit"
+    [isReply]="hasOpenReply"
+    (cancel)="hasOpenEdit = false; hasOpenReply = false"
+    (replyComment)="replyComment.emit($event); hasOpenReply = false"
+    (editComment)="editComment.emit($event); hasOpenReply = false"
+  ></app-form>
+
+  <ul *ngIf="updateReplies().length > 0">
+    <li *ngFor="let reply of updateReplies()">
+      <app-comment
+        [comment]="reply"
+        (deleteComment)="deleteComment.emit(reply)"
+        (replyComment)="replyComment.emit($event); hasOpenReply = false"
+        (editComment)="editComment.emit($event); hasOpenReply = false"
+      ></app-comment>
+    </li>
+  </ul>
+</div>

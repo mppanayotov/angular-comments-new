@@ -1,0 +1,37 @@
+<div class="list">
+  <div class="shell">
+    <!-- Comment sorting options -->
+    <div class="list__head">
+      Sort by:
+
+      <ul>
+        <li>Most replies</li>
+        <li>Most recent</li>
+      </ul>
+    </div>
+
+    <!-- Actions for adding root comment -->
+    <button type="button" (click)="hasOpenNew = true">Add a comment</button>
+
+    <app-form
+      *ngIf="hasOpenNew"
+      (newComment)="onNew($event); hasOpenNew = false"
+      (cancel)="hasOpenNew = false"
+    ></app-form>
+
+    <!-- Display existing comments -->
+    <ul *ngIf="updateComments().length > 0">
+      <ng-container *ngFor="let comment of updateComments()">
+        <li *ngIf="comment.parentId == null">
+          <app-comment
+            [comment]="comment"
+            [repliesInput]="getrepliesIds(comment.id)"
+            (deleteComment)="onDelete($event)"
+            (replyComment)="onReply($event)"
+            (editComment)="onEdit($event)"
+          ></app-comment>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+</div>
