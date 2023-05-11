@@ -18,6 +18,7 @@
     <!-- Actions for adding root comment -->
     <button type="button" (click)="hasOpenNew = true">Add a comment</button>
 
+    <!-- Form for adding root comment -->
     <app-form
       *ngIf="hasOpenNew"
       (newComment)="onNew($event); hasOpenNew = false"

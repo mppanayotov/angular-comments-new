@@ -32,6 +32,7 @@
     <button type="button" (click)="deleteComment.emit(comment)">Delete</button>
   </div>
 
+  <!-- Form for reply/edit -->
   <app-form
     *ngIf="hasOpenEdit || hasOpenReply"
     [comment]="comment"
@@ -42,6 +43,7 @@
     (editComment)="editComment.emit($event); hasOpenReply = false"
   ></app-form>
 
+  <!-- Replies to current comment (tree structure is maximum 2 levels; if new reply is not for root comment, it is attached to the closest root comment)-->
   <ul *ngIf="updateReplies().length > 0">
     <li *ngFor="let reply of updateReplies()">
       <app-comment

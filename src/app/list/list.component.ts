@@ -40,10 +40,8 @@ export class ListComponent implements OnInit {
       .subscribe((comments) => (this.comments = comments));
   }
 
-  // Update when comments are changed and filter according to selected filter
+  // Update when comments are changed and filter according to selected filter (thread replies are always ordered by 'most recent')
   updateComments() {
-    console.log(this.formSort.value.sortBy);
-
     // Sort by most comments
     if (this.formSort.value.sortBy == 1) {
       return this.comments.sort(
