@@ -35,23 +35,25 @@ export class ListComponent implements OnInit {
 
   // Get comments from database
   getComments(): void {
-    this.commentService
-      .getComments()
-      .subscribe((comments) => (this.comments = comments));
+    this.commentService.getComments().subscribe(
+      (comments) => (this.comments = comments),
+      () => this.sortComments()
+    );
   }
 
   // Sort comments (thread replies are always ordered by 'most recent')
   sortComments() {
-    // Sort by most comments
-    if (this.formSort.value.sortBy == 1) {
-      return this.comments.sort(
-        (a, b) => b.repliesIds.length - a.repliesIds.length
-      );
-    }
     // Sort by most recent (default)
-    return this.comments.sort(
+    this.comments.sort(
       (b, a) => new Date(a.date).getTime() - new Date(b.date).getTime()
     );
+
+    // Sort by most recent, then by most comments
+    if (this.formSort.value.sortBy == 1) {
+      this.comments.sort((a, b) => b.repliesIds.length - a.repliesIds.length);
+    }
+
+    return this.comments;
   }
 
   // Sort replies to a specific comment by date
