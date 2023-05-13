@@ -3,7 +3,7 @@
     <!-- Default avatar -->
     <img src="assets/img/avatar.png" alt="Avatar" />
     <!-- Mark if current user is author of thread (determined by userId; author name is not matched) -->
-    <span *ngIf="isOriginalPoster">&#10052;</span>
+    <span title="Original Poster" *ngIf="isOriginalPoster">&#9733;</span>
     <!-- Display user name -->
     <h3>{{ author }}</h3>
     &bull;
@@ -16,43 +16,46 @@
       User ID: {{ userId }}
     </small>
   </div>
+  <div class="comment__body">
+    <!-- Comment text content -->
+    <p>{{ content }}</p>
 
-  <!-- Comment text content -->
-  <p>{{ content }}</p>
+    <!-- Comment actions -->
+    <div class="comment__actions" *ngIf="!hasOpenEdit && !hasOpenReply">
+      <!-- Reply button always available / Support guest comments -->
+      <button type="button" (click)="hasOpenReply = true">Reply</button>
 
-  <!-- Comment actions -->
-  <div class="comment__foot" *ngIf="!hasOpenEdit && !hasOpenReply">
-    <!-- Reply button always available / Support guest comments -->
-    <button type="button" (click)="hasOpenReply = true">Reply</button>
+      <!-- Edit button always available / Should be enabled only if user is the author of comment -->
+      <button type="button" (click)="hasOpenEdit = true">Edit</button>
 
-    <!-- Edit button always available / Should be enabled only if user is the author of comment -->
-    <button type="button" (click)="hasOpenEdit = true">Edit</button>
+      <!-- Delete button if available -->
+      <button type="button" (click)="deleteComment.emit(comment)">
+        Delete
+      </button>
+    </div>
 
-    <!-- Delete button if available -->
-    <button type="button" (click)="deleteComment.emit(comment)">Delete</button>
-  </div>
+    <!-- Form for reply/edit -->
+    <app-form
+      *ngIf="hasOpenEdit || hasOpenReply"
+      [comment]="comment"
+      [isEdit]="hasOpenEdit"
+      [isReply]="hasOpenReply"
+      (cancel)="hasOpenEdit = false; hasOpenReply = false"
+      (replyComment)="replyComment.emit($event); hasOpenReply = false"
+      (editComment)="editComment.emit($event); hasOpenReply = false"
+    ></app-form>
 
-  <!-- Form for reply/edit -->
-  <app-form
-    *ngIf="hasOpenEdit || hasOpenReply"
-    [comment]="comment"
-    [isEdit]="hasOpenEdit"
-    [isReply]="hasOpenReply"
-    (cancel)="hasOpenEdit = false; hasOpenReply = false"
-    (replyComment)="replyComment.emit($event); hasOpenReply = false"
-    (editComment)="editComment.emit($event); hasOpenReply = false"
-  ></app-form>
-
-  <!-- Replies to current comment (tree structure is maximum 2 levels; if new reply is not for root comment, it is attached to the closest root comment)-->
-  <div *ngIf="replies.length > 0">
-    <li *ngFor="let reply of replies">
-      <app-comment
-        [comment]="reply"
-        (deleteComment)="deleteComment.emit(reply)"
-        (replyComment)="replyComment.emit($event); hasOpenReply = false"
-        (editComment)="editComment.emit($event); hasOpenReply = false"
-        [isOriginalPoster]="this.comment.userId == this.reply.userId"
-      ></app-comment>
-    </li>
+    <!-- Replies to current comment (tree structure is maximum 2 levels; if new reply is not for root comment, it is attached to the closest root comment)-->
+    <ul *ngIf="replies.length > 0">
+      <li *ngFor="let reply of replies">
+        <app-comment
+          [comment]="reply"
+          (deleteComment)="deleteComment.emit(reply)"
+          (replyComment)="replyComment.emit($event); hasOpenReply = false"
+          (editComment)="editComment.emit($event); hasOpenReply = false"
+          [isOriginalPoster]="this.comment.userId == this.reply.userId"
+        ></app-comment>
+      </li>
+    </ul>
   </div>
 </div>

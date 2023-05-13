@@ -1,25 +1,45 @@
 .comment {
   h3 {
     display: inline-block;
-    font-size: 15px;
+    margin-right: 8px;
+    font-size: 12px;
     font-weight: 700;
+    color: #f2f4f5;
+    margin-bottom: 0;
   }
 
   h4 {
     display: inline-block;
+    margin-left: 8px;
+    margin-bottom: 0;
+    font-size: 12px;
   }
 
   p {
     display: block;
-    margin-bottom: 10px;
     width: 100%;
-    border-radius: 10px;
-    border: 1px solid rgba(#000, 0.2);
-    padding: 16px 22px;
-    font: inherit;
-    color: inherit;
-    box-shadow: 1px 1px 2px 0px transparent, 1px 1px 2px 0px transparent inset;
+    margin-bottom: 8px;
+    border-radius: 16px;
+    padding: 16px;
+    background-color: #04090a;
     overflow-wrap: break-word;
+  }
+
+  span {
+    display: inline-block;
+    margin-right: 10px;
+    user-select: none;
+    font-size: 22px;
+    line-height: 1;
+    text-shadow: 0 0 8px currentColor;
+  }
+
+  small {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 10px;
+    line-height: 1;
   }
 
   ul {
@@ -31,7 +51,6 @@
   }
 
   li {
-    padding-left: 40px;
     padding-bottom: 20px;
   }
 
@@ -39,28 +58,21 @@
     padding-bottom: 0;
   }
 
-  small {
-    position: absolute;
-    right: 0;
-    top: 0;
-    font-size: 10px;
-    line-height: 1;
-  }
-
   img {
     position: absolute;
     left: 0;
     top: 0;
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     border-radius: 100%;
-    border: 1px solid #000;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 5px 0 rgba(255, 255, 255, 0.3);
   }
 
   button {
     position: relative;
     padding: 6px 20px;
-    border: 1px solid rgba(#000, 0.2);
+    border: 1px solid rgba(#fff, 0.2);
     border-radius: 10px;
     background-color: transparent;
     min-width: 0;
@@ -72,13 +84,14 @@
     text-transform: none;
     color: inherit;
     font-weight: 700;
-    line-height: 1.6;
-    font-size: inherit;
+    line-height: 1.2;
+    font-size: 12px;
     letter-spacing: 0em;
     cursor: pointer;
     text-decoration: none;
     outline: none;
     appearance: none;
+    opacity: 0.5;
     transition: transform 0.3s ease-out, border-color 0.3s ease-out,
       border-radius 0.3s ease-out, max-width 0.3s ease-out,
       max-height 0.3s ease-out, background-color 0.3s ease-out,
@@ -88,10 +101,12 @@
     transform-style: preserve-3d;
 
     &:hover,
+    &:active,
     &:focus {
-      border-color: rgba(#000, 0.4);
-      box-shadow: 1px 1px 2px 0px rgba(#000, 0.05),
-        1px 1px 2px 0px rgba(#000, 0.05) inset;
+      opacity: 1;
+      background-color: #223237;
+      box-shadow: 1px 1px 2px 0px rgba(#fff, 0.05),
+        1px 1px 2px 0px rgba(#fff, 0.05) inset;
     }
   }
 
@@ -105,12 +120,21 @@
 
   .comment__head {
     position: relative;
-    min-height: 30px;
+    display: flex;
+    align-items: center;
+    min-height: 32px;
     margin-bottom: 8px;
-    padding: 2px 100px 0 40px;
+    padding: 2px 100px 0 44px;
+    color: #82959b;
+    font-size: 12px;
+    line-height: 1.3;
   }
 
-  .comment__foot {
+  .comment__body {
+    padding-left: 32px;
+  }
+
+  .comment__actions {
     display: flex;
   }
 }

@@ -3,8 +3,15 @@
     <!-- Comment sorting options -->
     <div class="list__head">
       <form [formGroup]="formSort">
-        <label for="select-sort-by">Sort by:</label>
-        <select formControlName="sortBy" id="select-sort-by">
+        <span>Sort by:</span>
+
+        <!-- Button used to cycle through available options for sorting -->
+        <button (click)="changeSelect()">
+          {{ selectedSortName() }}
+        </button>
+
+        <!-- Select is hidden from the UI -->
+        <select hidden formControlName="sortBy" id="select-sort-by">
           <option
             *ngFor="let sortOption of sortOptions"
             [value]="sortOption.value"
@@ -19,11 +26,12 @@
     <button type="button" (click)="hasOpenNew = true">Add a comment</button>
 
     <!-- Form for adding root comment -->
-    <app-form
-      *ngIf="hasOpenNew"
-      (newComment)="onNew($event); hasOpenNew = false"
-      (cancel)="hasOpenNew = false"
-    ></app-form>
+    <div class="list__form" *ngIf="hasOpenNew">
+      <app-form
+        (newComment)="onNew($event); hasOpenNew = false"
+        (cancel)="hasOpenNew = false"
+      ></app-form>
+    </div>
 
     <!-- Display existing comments -->
     <ul *ngIf="sortComments().length > 0">

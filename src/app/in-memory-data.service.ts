@@ -13,7 +13,8 @@ export class InMemoryDataService implements InMemoryDbService {
         parentId: null,
         userId: 2,
         author: 'John',
-        content: 'lorem',
+        content:
+          'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aperiam suscipit at asperiores officia saepe dolor. Id ea facere dolorum quo laudantium quas in harum, rem reiciendis asperiores quae nam. Magnam!',
         date: '03.05.2023',
         replies: [],
         repliesIds: [13, 14, 15],
@@ -24,7 +25,8 @@ export class InMemoryDataService implements InMemoryDbService {
         parentId: 12,
         userId: 2,
         author: 'Peter',
-        content: 'lorem',
+        content:
+          'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorem et repudiandae obcaecati consequatur eveniet quaerat ratione architecto voluptatum corporis fugiat, dolor veritatis libero. Eveniet vitae, quae facere ratione ipsum voluptates.',
         date: '03.05.2023',
         replies: [],
         repliesIds: [],
@@ -35,7 +37,8 @@ export class InMemoryDataService implements InMemoryDbService {
         parentId: 12,
         userId: 4,
         author: 'Bob',
-        content: 'lorem',
+        content:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores quod praesentium numquam et neque possimus laborum minima sit sequi enim exercitationem est deleniti, rem id esse, omnis quia provident velit.',
         date: '01.02.2023',
         replies: [],
         repliesIds: [],
@@ -46,7 +49,8 @@ export class InMemoryDataService implements InMemoryDbService {
         parentId: 12,
         userId: 5,
         author: 'Frank',
-        content: 'lorem',
+        content:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque consectetur totam libero saepe? Voluptatibus aut, officia, voluptatem excepturi impedit eius commodi, corporis a libero explicabo dolorum! Quos dignissimos soluta odit!',
         date: '03.05.2023',
         replies: [],
         repliesIds: [],
@@ -57,7 +61,8 @@ export class InMemoryDataService implements InMemoryDbService {
         parentId: null,
         userId: 6,
         author: 'Joseph',
-        content: 'lorem',
+        content:
+          'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Totam, aliquid cupiditate! Explicabo est impedit mollitia dignissimos recusandae non omnis beatae cum eaque, quisquam velit aliquam necessitatibus ea, laudantium, ipsam veniam.',
         date: '02.05.2023',
         replies: [],
         repliesIds: [],
@@ -68,7 +73,8 @@ export class InMemoryDataService implements InMemoryDbService {
         parentId: null,
         userId: 7,
         author: 'Emma',
-        content: 'lorem',
+        content:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, quibusdam molestiae. Necessitatibus corporis ipsa totam fugit, hic numquam quo iste corrupti cum sit natus magni consectetur deleniti? Provident, necessitatibus cupiditate!',
         date: '01.05.2023',
         replies: [],
         repliesIds: [],
@@ -79,7 +85,8 @@ export class InMemoryDataService implements InMemoryDbService {
         parentId: null,
         userId: 8,
         author: 'Stan',
-        content: 'lorem',
+        content:
+          'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolore excepturi nesciunt ea animi impedit labore molestias, dignissimos reprehenderit sint aut cum, quaerat ut id pariatur harum aspernatur ipsum libero repellat?',
         date: '02.05.2022',
         replies: [],
         repliesIds: [],
@@ -90,7 +97,8 @@ export class InMemoryDataService implements InMemoryDbService {
         parentId: null,
         userId: 9,
         author: 'George',
-        content: 'lorem',
+        content:
+          'Lorem, ipsum dolor sit amet consectetur adipisicing elit. In tenetur, similique nostrum id fuga molestias! Necessitatibus delectus commodi aspernatur, dolorem eum deserunt quibusdam officiis amet provident eligendi maiores nesciunt alias.',
         date: '04.05.2021',
         replies: [],
         repliesIds: [],
@@ -101,7 +109,8 @@ export class InMemoryDataService implements InMemoryDbService {
         parentId: null,
         userId: 0,
         author: 'Larry',
-        content: 'lorem',
+        content:
+          'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Expedita illum incidunt, aperiam sunt rem at ipsam, commodi ullam asperiores aut quisquam tenetur? Ipsum molestias animi debitis illum ducimus. Temporibus, consequatur!',
         date: '01.05.2020',
         replies: [],
         repliesIds: [],

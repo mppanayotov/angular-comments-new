@@ -33,6 +33,23 @@ export class ListComponent implements OnInit {
     this.getComments();
   }
 
+  // Increment selected sort option. Reset to start if max length reached.
+  changeSelect() {
+    this.formSort.patchValue({
+      sortBy:
+        this.formSort.value.sortBy! == this.sortOptions.length - 1
+          ? 0
+          : this.formSort.value.sortBy! + 1,
+    });
+  }
+
+  // Get the name of the option selected by matching its value in the options list
+  selectedSortName() {
+    return this.sortOptions.find(
+      (sortOption) => sortOption.value == this.formSort.value.sortBy
+    )?.name;
+  }
+
   // Get comments from database
   getComments(): void {
     this.commentService.getComments().subscribe(
