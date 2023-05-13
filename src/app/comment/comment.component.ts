@@ -24,8 +24,8 @@ export class CommentComponent implements OnInit, CommentInterface {
   author: string = '';
   content: string = '';
   date: Date = new Date();
-  repliesIds: Array<[]> = [];
   replies: CommentInterface[] = [];
+  repliesIds: number[] = [];
   avatarUrl: null | string = null;
 
   constructor() {}
@@ -37,12 +37,8 @@ export class CommentComponent implements OnInit, CommentInterface {
     this.author = this.comment.author;
     this.content = this.comment.content;
     this.date = this.comment.date;
-    this.repliesIds = this.comment.repliesIds;
     this.replies = this.repliesInput;
+    this.repliesIds = this.comment.repliesIds;
     this.avatarUrl = this.comment.avatarUrl;
-  }
-
-  updateReplies() {
-    return this.replies;
   }
 }

@@ -11,10 +11,10 @@ export interface CommentInterface {
   content: string;
   // Date should be generated server-side
   date: Date;
-  // Replies' id's
-  repliesIds: Array<[]>;
   // Replies
   replies: CommentInterface[];
+  // Replies IDs
+  repliesIds: number[];
   // Avatar should be generated server-side / Optional upload for guests
   avatarUrl: null | string;
 }

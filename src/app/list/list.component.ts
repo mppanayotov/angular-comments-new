@@ -40,8 +40,8 @@ export class ListComponent implements OnInit {
       .subscribe((comments) => (this.comments = comments));
   }
 
-  // Update when comments are changed and filter according to selected filter (thread replies are always ordered by 'most recent')
-  updateComments() {
+  // Sort comments (thread replies are always ordered by 'most recent')
+  sortComments() {
     // Sort by most comments
     if (this.formSort.value.sortBy == 1) {
       return this.comments.sort(
@@ -54,30 +54,51 @@ export class ListComponent implements OnInit {
     );
   }
 
-  // Get replies to a specific comment and sort by date
-  getrepliesIds(commentId: number): CommentInterface[] {
+  // Sort replies to a specific comment by date
+  sortReplies(commentId: number): CommentInterface[] {
     return this.comments
       .filter((comment) => comment.parentId === commentId)
       .sort((b, a) => new Date(a.date).getTime() - new Date(b.date).getTime());
   }
 
-  // Handle delete emmiters
+  // Handle delete emmiters; Delete reply comments if found
   onDelete(comment: CommentInterface): void {
-    this.commentService
-      .deleteComment(comment.id)
-      .subscribe(() => this.getComments());
+    const deleteIds: number[] = [comment.id];
+
+    // If comment is root and has replies, enlist their id for removal
+    comment.repliesIds.forEach((replyId) => {
+      deleteIds.push(replyId);
+    });
+    deleteIds.forEach((deleteId) => {
+      this.commentService
+        .deleteComment(deleteId)
+        .subscribe(() => this.getComments());
+    });
+
+    // If reply has parent, remove the id from its parent's reply list
+    if (comment.parentId) {
+      const replyParent = this.comments.find(
+        (parent) => parent.id === comment.parentId
+      );
+      const replyIdsArray = replyParent?.repliesIds;
+
+      replyIdsArray?.splice(replyIdsArray.indexOf(comment.id), 1);
+      this.commentService
+        .updateComment(replyParent as CommentInterface)
+        .subscribe(() => this.getComments());
+    }
   }
 
   // Handle new comment emmiters
   onNew(comment: CommentInterface): void {
-    let parentId: number | null = comment.parentId;
-    let userId: number = comment.userId;
-    let author: string = comment.author;
-    let content: string = comment.content;
-    let date: Date = comment.date;
-    let repliesIds: Array<[]> = comment.repliesIds;
-    let replies: CommentInterface[] = comment.replies;
-    let avatarUrl: null | string = comment.avatarUrl;
+    const parentId: number | null = comment.parentId;
+    const userId: number = comment.userId;
+    const author: string = comment.author;
+    const content: string = comment.content;
+    const date: Date = comment.date;
+    const repliesIds: number[] = [];
+    const replies: CommentInterface[] = comment.replies;
+    const avatarUrl: null | string = comment.avatarUrl;
 
     this.commentService
       .addComment({
@@ -102,14 +123,26 @@ export class ListComponent implements OnInit {
 
   // Handle reply comment emmiters
   onReply(comment: CommentInterface): void {
-    let parentId: number | null = comment.parentId;
-    let userId: number = comment.userId;
-    let author: string = comment.author;
-    let content: string = comment.content;
-    let date: Date = comment.date;
-    let repliesIds: Array<[]> = comment.repliesIds;
-    let replies: CommentInterface[] = comment.replies;
-    let avatarUrl: null | string = comment.avatarUrl;
+    const parentId: number | null = comment.parentId;
+    const userId: number = comment.userId;
+    const author: string = comment.author;
+    const content: string = comment.content;
+    const date: Date = comment.date;
+    const repliesIds: number[] = comment.repliesIds;
+    const replies: CommentInterface[] = comment.replies;
+    const avatarUrl: null | string = comment.avatarUrl;
+
+    if (comment.parentId) {
+      const replyParent = this.comments.find(
+        (parent) => parent.id === comment.parentId
+      );
+      const replyIdsArray = replyParent?.repliesIds;
+
+      replyIdsArray?.push(comment.id);
+      this.commentService
+        .updateComment(replyParent as CommentInterface)
+        .subscribe(() => this.getComments());
+    }
 
     this.commentService
       .addComment({

@@ -63,6 +63,7 @@ export class FormComponent implements OnInit {
 
   onSubmit(): void {
     if (
+      // New root comment case case
       !this.isEdit &&
       !this.comment &&
       this.form.value.authorDetails &&
@@ -70,53 +71,55 @@ export class FormComponent implements OnInit {
       this.form.value.authorDetails.userId &&
       this.form.value.content
     ) {
-      // New root comment case case
-      let newComment: CommentInterface = {
+      const newComment: CommentInterface = {
         id: 0,
         parentId: null,
         userId: this.form.value.authorDetails.userId,
         author: this.form.value.authorDetails.author,
         content: this.form.value.content.trim(),
         date: new Date(),
-        repliesIds: [],
         replies: [],
+        repliesIds: [],
         avatarUrl: 'assets/img/avatar.png',
       };
       this.newComment.emit(newComment);
-    } else if (this.isEdit && this.comment && this.form.value.content) {
+    } else if (
       // Edit case
-      let newComment: CommentInterface = {
+      this.isEdit &&
+      this.comment &&
+      this.form.value.content
+    ) {
+      const newComment: CommentInterface = {
         id: this.comment.id,
         parentId: this.comment.parentId,
         userId: this.comment.userId,
         author: this.comment.author,
         content: this.form.value.content.trim(),
         date: this.comment.date,
-        repliesIds: this.comment.repliesIds,
         replies: this.comment.replies,
+        repliesIds: this.comment.repliesIds,
         avatarUrl: this.comment.avatarUrl,
       };
       this.editComment.emit(newComment);
     } else if (
+      // Reply case
       this.comment &&
       this.form.value.authorDetails &&
       this.form.value.authorDetails.author &&
       this.form.value.authorDetails.userId &&
       this.form.value.content
     ) {
-      // Reply case
-      let newComment: CommentInterface = {
+      const newComment: CommentInterface = {
         id: 0,
-        parentId:
-          this.comment.parentId == null
-            ? this.comment.id
-            : this.comment.parentId,
+        parentId: this.comment.parentId
+          ? this.comment.parentId
+          : this.comment.id,
         userId: this.form.value.authorDetails.userId,
         author: this.form.value.authorDetails.author.trim(),
         content: this.form.value.content.trim(),
         date: new Date(),
-        repliesIds: [],
         replies: [],
+        repliesIds: [],
         avatarUrl: 'assets/img/avatar.png',
       };
       this.replyComment.emit(newComment);

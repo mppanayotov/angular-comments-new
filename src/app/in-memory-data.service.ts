@@ -15,6 +15,7 @@ export class InMemoryDataService implements InMemoryDbService {
         author: 'John',
         content: 'lorem',
         date: '03.05.2023',
+        replies: [],
         repliesIds: [13, 14, 15],
         avatar: 'assets/img/avatar.png',
       },
@@ -25,6 +26,7 @@ export class InMemoryDataService implements InMemoryDbService {
         author: 'Peter',
         content: 'lorem',
         date: '03.05.2023',
+        replies: [],
         repliesIds: [],
         avatar: 'assets/img/avatar.png',
       },
@@ -35,6 +37,7 @@ export class InMemoryDataService implements InMemoryDbService {
         author: 'Bob',
         content: 'lorem',
         date: '01.02.2023',
+        replies: [],
         repliesIds: [],
         avatar: 'assets/img/avatar.png',
       },
@@ -45,6 +48,7 @@ export class InMemoryDataService implements InMemoryDbService {
         author: 'Frank',
         content: 'lorem',
         date: '03.05.2023',
+        replies: [],
         repliesIds: [],
         avatar: 'assets/img/avatar.png',
       },
@@ -55,6 +59,7 @@ export class InMemoryDataService implements InMemoryDbService {
         author: 'Joseph',
         content: 'lorem',
         date: '02.05.2023',
+        replies: [],
         repliesIds: [],
         avatar: 'assets/img/avatar.png',
       },
@@ -65,6 +70,7 @@ export class InMemoryDataService implements InMemoryDbService {
         author: 'Emma',
         content: 'lorem',
         date: '01.05.2023',
+        replies: [],
         repliesIds: [],
         avatar: 'assets/img/avatar.png',
       },
@@ -75,6 +81,7 @@ export class InMemoryDataService implements InMemoryDbService {
         author: 'Stan',
         content: 'lorem',
         date: '02.05.2022',
+        replies: [],
         repliesIds: [],
         avatar: 'assets/img/avatar.png',
       },
@@ -85,6 +92,7 @@ export class InMemoryDataService implements InMemoryDbService {
         author: 'George',
         content: 'lorem',
         date: '04.05.2021',
+        replies: [],
         repliesIds: [],
         avatar: 'assets/img/avatar.png',
       },
@@ -95,6 +103,7 @@ export class InMemoryDataService implements InMemoryDbService {
         author: 'Larry',
         content: 'lorem',
         date: '01.05.2020',
+        replies: [],
         repliesIds: [],
         avatar: 'assets/img/avatar.png',
       },
@@ -102,11 +111,11 @@ export class InMemoryDataService implements InMemoryDbService {
     return { comments };
   }
 
-  // Overrides the genId method to ensure that a hero always has an id.
+  // Overrides the genId method to ensure that a comment always has an id.
   // If the comments array is empty,
   // the method below returns the initial number (11).
   // if the comments array is not empty, the method below returns the highest
-  // hero id + 1.
+  // comment id + 1.
   genId(comments: CommentInterface[]): number {
     return comments.length > 0
       ? Math.max(...comments.map((comment) => comment.id)) + 1

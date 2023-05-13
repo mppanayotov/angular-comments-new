@@ -44,8 +44,8 @@
   ></app-form>
 
   <!-- Replies to current comment (tree structure is maximum 2 levels; if new reply is not for root comment, it is attached to the closest root comment)-->
-  <ul *ngIf="updateReplies().length > 0">
-    <li *ngFor="let reply of updateReplies()">
+  <div *ngIf="replies.length > 0">
+    <li *ngFor="let reply of replies">
       <app-comment
         [comment]="reply"
         (deleteComment)="deleteComment.emit(reply)"
@@ -54,5 +54,5 @@
         [isOriginalPoster]="this.comment.userId == this.reply.userId"
       ></app-comment>
     </li>
-  </ul>
+  </div>
 </div>

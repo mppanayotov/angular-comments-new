@@ -3,8 +3,8 @@
     <!-- Comment sorting options -->
     <div class="list__head">
       <form [formGroup]="formSort">
-        <label for="sortOptions">Sort by:</label>
-        <select formControlName="sortBy">
+        <label for="select-sort-by">Sort by:</label>
+        <select formControlName="sortBy" id="select-sort-by">
           <option
             *ngFor="let sortOption of sortOptions"
             [value]="sortOption.value"
@@ -26,12 +26,12 @@
     ></app-form>
 
     <!-- Display existing comments -->
-    <ul *ngIf="updateComments().length > 0">
-      <ng-container *ngFor="let comment of updateComments()">
+    <ul *ngIf="sortComments().length > 0">
+      <ng-container *ngFor="let comment of sortComments()">
         <li *ngIf="comment.parentId == null">
           <app-comment
             [comment]="comment"
-            [repliesInput]="getrepliesIds(comment.id)"
+            [repliesInput]="sortReplies(comment.id)"
             (deleteComment)="onDelete($event)"
             (replyComment)="onReply($event)"
             (editComment)="onEdit($event)"
