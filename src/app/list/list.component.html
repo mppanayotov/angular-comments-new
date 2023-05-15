@@ -34,12 +34,12 @@
     </div>
 
     <!-- Display existing comments -->
-    <ul *ngIf="sortComments().length > 0">
-      <ng-container *ngFor="let comment of sortComments()">
+    <ul *ngIf="comments.length > 0">
+      <ng-container *ngFor="let comment of comments">
         <li *ngIf="comment.parentId == null">
           <app-comment
             [comment]="comment"
-            [repliesInput]="sortReplies(comment.id)"
+            [repliesInput]="filterReplies(comment.id)"
             (deleteComment)="onDelete($event)"
             (replyComment)="onReply($event)"
             (editComment)="onEdit($event)"

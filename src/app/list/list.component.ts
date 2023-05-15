@@ -41,6 +41,8 @@ export class ListComponent implements OnInit {
           ? 0
           : this.formSort.value.sortBy! + 1,
     });
+
+    this.sortComments();
   }
 
   // Get the name of the option selected by matching its value in the options list
@@ -52,48 +54,55 @@ export class ListComponent implements OnInit {
 
   // Get comments from database
   getComments(): void {
-    this.commentService.getComments().subscribe(
-      (comments) => (this.comments = comments),
-      () => this.sortComments()
-    );
+    this.commentService
+      .getComments()
+      .subscribe((comments) => (this.comments = this.sortComments(comments)));
   }
 
   // Sort comments (thread replies are always ordered by 'most recent')
-  sortComments() {
-    // Sort by most recent (default)
-    this.comments.sort(
-      (b, a) => new Date(a.date).getTime() - new Date(b.date).getTime()
+  sortComments(comments?: CommentInterface[]) {
+    if (!comments) {
+      comments = this.comments;
+    }
+
+    // Sort by most recent (default). If comment has replies, sort it by most recent reply date.
+    comments.sort(
+      (b, a) =>
+        new Date(
+          a.repliesIds.length > 0
+            ? Math.max(
+                ...comments!
+                  .filter((comment) => comment.parentId === a.id)
+                  .map((reply) => new Date(reply.date).getTime())
+              )
+            : a.date
+        ).getTime() -
+        new Date(
+          b.repliesIds.length > 0
+            ? Math.max(
+                ...comments!
+                  .filter((comment) => comment.parentId === b.id)
+                  .map((reply) => new Date(reply.date).getTime())
+              )
+            : b.date
+        ).getTime()
     );
 
     // Sort by most recent, then by most comments
     if (this.formSort.value.sortBy == 1) {
-      this.comments.sort((a, b) => b.repliesIds.length - a.repliesIds.length);
+      comments.sort((a, b) => b.repliesIds.length - a.repliesIds.length);
     }
 
-    return this.comments;
+    return comments;
   }
 
-  // Sort replies to a specific comment by date
-  sortReplies(commentId: number): CommentInterface[] {
-    return this.comments
-      .filter((comment) => comment.parentId === commentId)
-      .sort((b, a) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  // Filter replies to a specific comment
+  filterReplies(commentId: number): CommentInterface[] {
+    return this.comments.filter((comment) => comment.parentId === commentId);
   }
 
   // Handle delete emmiters; Delete reply comments if found
   onDelete(comment: CommentInterface): void {
-    const deleteIds: number[] = [comment.id];
-
-    // If comment is root and has replies, enlist their id for removal
-    comment.repliesIds.forEach((replyId) => {
-      deleteIds.push(replyId);
-    });
-    deleteIds.forEach((deleteId) => {
-      this.commentService
-        .deleteComment(deleteId)
-        .subscribe(() => this.getComments());
-    });
-
     // If reply has parent, remove the id from its parent's reply list
     if (comment.parentId) {
       const replyParent = this.comments.find(
@@ -104,7 +113,38 @@ export class ListComponent implements OnInit {
       replyIdsArray?.splice(replyIdsArray.indexOf(comment.id), 1);
       this.commentService
         .updateComment(replyParent as CommentInterface)
-        .subscribe(() => this.getComments());
+        .subscribe(() =>
+          this.commentService
+            .deleteComment(comment.id)
+            .subscribe(() => this.getComments())
+        );
+    } else {
+      // If comment is root and has replies, enlist their id for removal
+      if (comment.repliesIds.length > 0) {
+        comment.repliesIds.forEach((replyId) => {
+          if (
+            comment.repliesIds.indexOf(replyId) <
+            comment.repliesIds.length - 1
+          ) {
+            this.commentService
+              .deleteComment(replyId)
+              .subscribe(() => this.commentService.deleteComment(replyId + 1));
+          } else {
+            this.commentService
+              .deleteComment(replyId)
+              .subscribe(() =>
+                this.commentService
+                  .deleteComment(comment.id)
+                  .subscribe(() => this.getComments())
+              );
+          }
+        });
+      } else {
+        // If comment is root and has no replies, delete it
+        this.commentService
+          .deleteComment(comment.id)
+          .subscribe(() => this.getComments());
+      }
     }
   }
 
@@ -142,7 +182,7 @@ export class ListComponent implements OnInit {
 
   // Handle reply comment emmiters
   onReply(comment: CommentInterface): void {
-    const parentId: number | null = comment.parentId;
+    const parentId: number = comment.parentId!;
     const userId: number = comment.userId;
     const author: string = comment.author;
     const content: string = comment.content;
@@ -150,18 +190,6 @@ export class ListComponent implements OnInit {
     const repliesIds: number[] = comment.repliesIds;
     const replies: CommentInterface[] = comment.replies;
     const avatarUrl: null | string = comment.avatarUrl;
-
-    if (comment.parentId) {
-      const replyParent = this.comments.find(
-        (parent) => parent.id === comment.parentId
-      );
-      const replyIdsArray = replyParent?.repliesIds;
-
-      replyIdsArray?.push(comment.id);
-      this.commentService
-        .updateComment(replyParent as CommentInterface)
-        .subscribe(() => this.getComments());
-    }
 
     this.commentService
       .addComment({
@@ -174,6 +202,21 @@ export class ListComponent implements OnInit {
         replies,
         avatarUrl,
       } as CommentInterface)
-      .subscribe(() => this.getComments());
+      .subscribe((newComment) =>
+        // Wait to recieve new comment ID from server, push it to parent's reply list, update parent reply list
+        this.commentService
+          .updateComment(
+            this.pushIdtoParent(parentId, newComment.id) as CommentInterface
+          )
+          .subscribe(() => this.getComments())
+      );
+  }
+
+  // Push new reply ID to parent's reply list
+  pushIdtoParent(parentId: number, id: number): CommentInterface {
+    const parent = this.comments.find((comment) => comment.id === parentId);
+    parent!.repliesIds.push(id);
+
+    return parent!;
   }
 }
